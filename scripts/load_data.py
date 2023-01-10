@@ -13,7 +13,7 @@ with open("test.json", "r") as f:
     # Итерируемся по данным
     for d in data:
         # Отправляем данные в Elasticsearch с помощью метода index
-        es.index(index="my_index", doc_type="test", body=d)
+        es.index(index='my_index', document=data)
 
 # Закрываеи файл
 f.close()
