@@ -1,4 +1,4 @@
 # SberTask
-Выполнение тестового задания Sber. 
+Execution of the Sber test task.
 
-UPD обновлен файл JSON
+UPD updated JSON file
