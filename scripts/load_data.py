@@ -2,19 +2,19 @@ import json
 from datetime import datetime
 from elasticsearch import Elasticsearch
 
-# Initialize the Elasticsearch client
+# Инициализируем клиент Elasticsearch, указывая адрес сервера
 es = Elasticsearch(hosts=["http://localhost:9200"])
 
-# Open the file test.json
+# Открываем файл test.json
 with open("test.json", "r") as f:
-    # Load the data from the file into a variable
+    # Загружаем данные из файла в переменную
     data = json.load(f)
-    # Iterate over the data
+    # Итерируемся по данным
     for d in data:
-        # Convert the @timestamp field to the correct format
+        # Конвертируем поле @timestamp в нужный формат
         d["@timestamp"] = datetime.strptime(d["@timestamp"], "%Y-%m-%d").isoformat()
-        # Send the data to Elasticsearch
+        # Отправляем данные в Elasticsearch с помощью метода index
         es.index(index='my_index', body=d, id=d["@timestamp"])
 
-# Close the file
+# Закрываеи файл
 f.close()
