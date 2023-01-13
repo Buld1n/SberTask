@@ -1,19 +1,20 @@
-# Импортируем библиотеку elasticsearch
-from elasticsearch import Elasticsearch
-# Импортируем библиотеку json
 import json
+from datetime import datetime
+from elasticsearch import Elasticsearch
 
-# Инициализируем клиент Elasticsearch, указывая адрес сервера
+# Initialize the Elasticsearch client
 es = Elasticsearch(hosts=["http://localhost:9200"])
 
-# Открываем файл test.json
+# Open the file test.json
 with open("test.json", "r") as f:
-    # Загружаем данные из файла в переменную
+    # Load the data from the file into a variable
     data = json.load(f)
-    # Итерируемся по данным
+    # Iterate over the data
     for d in data:
-        # Отправляем данные в Elasticsearch с помощью метода index
-        es.index(index='my_index', document=data)
+        # Convert the @timestamp field to the correct format
+        d["@timestamp"] = datetime.strptime(d["@timestamp"], "%Y-%m-%d").isoformat()
+        # Send the data to Elasticsearch
+        es.index(index='my_index', body=d, id=d["@timestamp"])
 
-# Закрываеи файл
+# Close the file
 f.close()
